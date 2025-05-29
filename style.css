@@ -1,17 +1,28 @@
 :root {
-    --primary: #2e7d32; /* Verde mais profundo */
-    --primary-light: #4CAF50; /* Verde vibrante */
-    --primary-dark: #1b5e20;
-    --secondary: #ffd700; /* Dourado */
-    --accent: #ff6f00; /* Laranja */
-    --light-bg: #f8f8f8;
-    --dark-bg: #1a1a1a;
-    --text-dark: #333333;
-    --text-light: #ffffff;
-    --text-muted: #666666;
-    --card-bg: #ffffff;
-    --border: #e0e0e0;
-    --shadow: rgba(0, 0, 0, 0.1);
+    /* Paleta de cores personalizada ajustada e expandida */
+    --background: #04200e;          /* Verde bem escuro (fundo principal) */
+    --foreground: #e5decc;          /* Branco-sujo / bege bem claro (texto principal sobre fundo escuro) */
+    --card: #0a2f18;                /* Verde escuro para cards (ligeiramente mais claro que o background) */
+    --card-foreground: #e5decc;     /* Texto dentro dos cards (igual ao foreground) */
+    --primary: #a89d86;             /* Bege/Khaki (para elementos primários como títulos ou botões) */
+    --primary-foreground: #04200e;  /* Texto escuro para usar sobre fundo --primary */
+    --primary-lighter: #c1b8a5;     /* Variação mais clara de --primary para hovers, etc. */
+    --secondary: #1f4f2e;           /* Verde escuro suave (para elementos secundários) */
+    --secondary-foreground: #d9d2c3; /* Texto claro para usar sobre fundo --secondary */
+    --muted: #2c3a2e;               /* Verde apagado (para fundos de seção alternados ou elementos de menor ênfase) */
+    --muted-foreground: #b0a99a;    /* Texto para elementos "muted" */
+    --accent: #3b8c51;              /* Verde vibrante (cor de destaque) */
+    --accent-foreground: #f7f1e6;    /* Texto branco brilhante para usar sobre fundo --accent */
+    --accent-darker: #2a6339;      /* Variação mais escura de --accent para hovers, etc. */
+    --border: #253f2c;              /* Cor sutil para bordas */
+    --input: #143a21;               /* Verde escuro para campos de input */
+
+    /* Sombras baseadas na cor de fundo (escura) */
+    --shadow-color-rgb: 4, 32, 14; /* Componentes RGB de --background para rgba() */
+    --shadow: rgba(var(--shadow-color-rgb), 0.25);         /* Sombra padrão mais visível em tema escuro */
+    --strong-shadow: rgba(var(--shadow-color-rgb), 0.4);   /* Sombra mais forte */
+    --subtle-shadow: rgba(var(--shadow-color-rgb), 0.15);  /* Sombra mais sutil */
+
     --transition: all 0.3s ease;
 }
 
@@ -23,8 +34,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--light-bg);
-    color: var(--text-dark);
+    background-color: var(--background);
+    color: var(--foreground);
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -33,16 +44,17 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     margin-bottom: 0.8rem;
+    color: var(--primary); /* Títulos usam a cor primária (bege/khaki) */
 }
 
 h1 {
     font-size: 3.5rem;
     line-height: 1.2;
+    color: var(--accent); /* Título principal pode usar a cor de destaque */
 }
 
 h2 {
     font-size: 2.5rem;
-    color: var(--primary);
     position: relative;
     display: inline-block;
     margin-bottom: 2.5rem;
@@ -55,13 +67,17 @@ h2::after {
     left: 0;
     width: 70px;
     height: 4px;
-    background: var(--secondary);
+    background: var(--accent); /* Linha decorativa com cor de destaque */
     border-radius: 2px;
 }
 
 p {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
+}
+
+p.muted, .muted-text { /* Para textos com menor ênfase */
+    color: var(--muted-foreground);
 }
 
 .container {
@@ -86,34 +102,36 @@ p {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-    color: var(--text-light);
+    background: var(--primary);
+    color: var(--primary-foreground);
 }
 
 .btn-primary:hover {
+    background: var(--primary-lighter);
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(46, 125, 50, 0.3);
+    box-shadow: 0 8px 15px var(--strong-shadow);
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    color: var(--secondary-foreground); /* Texto claro sobre borda escura */
+    border: 2px solid var(--secondary);
 }
 
 .btn-secondary:hover {
-    background: var(--primary);
-    color: var(--text-light);
+    background: var(--secondary);
+    color: var(--accent-foreground); /* Texto bem claro ao preencher com cor escura */
 }
 
 .btn-accent {
-    background: linear-gradient(135deg, var(--accent), #ff8f00);
-    color: var(--text-light);
+    background: var(--accent);
+    color: var(--accent-foreground);
 }
 
 .btn-accent:hover {
+    background: var(--accent-darker);
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(255, 111, 0, 0.3);
+    box-shadow: 0 8px 15px color-mix(in srgb, var(--accent) 40%, black 60%); /* Sombra baseada no accent */
 }
 
 /* Navbar */
@@ -126,13 +144,12 @@ p {
     transition: var(--transition);
     padding: 20px 0;
     background: transparent;
-    backdrop-filter: blur(0px);
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.9);
+    background: color-mix(in srgb, var(--card) 90%, transparent); /* Fundo do card com transparência */
     backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 20px var(--shadow);
     padding: 15px 0;
 }
 
@@ -154,7 +171,7 @@ p {
 }
 
 .navbar-brand i {
-    color: var(--secondary);
+    color: var(--accent); /* Ícone da marca com cor de destaque */
 }
 
 .navbar-links {
@@ -163,7 +180,7 @@ p {
 }
 
 .nav-link {
-    color: var(--text-dark);
+    color: var(--foreground);
     font-weight: 500;
     text-decoration: none;
     position: relative;
@@ -178,12 +195,12 @@ p {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--primary);
+    background: var(--accent); /* Sublinhado do link com cor de destaque */
     transition: var(--transition);
 }
 
 .nav-link:hover {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .nav-link:hover::after {
@@ -206,9 +223,10 @@ p {
     min-height: 700px;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), 
-                url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+    background: linear-gradient(rgba(var(--shadow-color-rgb), 0.65), rgba(var(--shadow-color-rgb), 0.5)),
+                url('/fundo-de-folhas-verdes-tropicais_53876-90796.avif') no-repeat center center/cover;
     overflow: hidden;
+    color: var(--foreground); /* Texto principal da hero */
 }
 
 .hero-content {
@@ -219,7 +237,7 @@ p {
 }
 
 .hero-content h1 {
-    color: var(--primary-dark);
+    color: var(--accent-foreground); /* Título da Hero com cor de texto brilhante sobre o overlay */
     margin-bottom: 20px;
     animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
@@ -228,6 +246,7 @@ p {
     font-size: 1.3rem;
     margin-bottom: 30px;
     animation: fadeInUp 0.8s ease-out 0.4s backwards;
+    color: var(--foreground); /* Parágrafo da Hero */
 }
 
 .hero-btn {
@@ -248,9 +267,10 @@ p {
     position: absolute;
     width: 40px;
     height: 40px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232e7d32"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l-1.89-.68C5.05 15.5 7 8 17 8m-5-6C9 2 7.69 4.1 7.26 4.74C6.84 5.38 6 6.67 6 8s.84 2.62 1.26 3.26C9.31 11.9 12 10 12 10s2.69 1.9 4.74 1.26C17.16 10.62 18 9.33 18 8s-.84-2.62-1.26-3.26C16.31 4.1 15 2 12 2m-1 2.5c.14 0 .25.11.25.25S11.14 5 11 5s-.25-.11-.25-.25S10.86 4.5 11 4.5m-3.25 1.5c0 .41-.34.75-.75.75s-.75-.34-.75-.75s.34-.75.75-.75s.75.34.75.75m9.5 0c0 .41-.34.75-.75.75s-.75-.34-.75-.75s.34-.75.75-.75s.75.34.75.75Z"/></svg>') no-repeat center center;
+    /* Cor --accent (#3b8c51) convertida para URL encoding: %233b8c51 */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233b8c51"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l-1.89-.68C5.05 15.5 7 8 17 8m-5-6C9 2 7.69 4.1 7.26 4.74C6.84 5.38 6 6.67 6 8s.84 2.62 1.26 3.26C9.31 11.9 12 10 12 10s2.69 1.9 4.74 1.26C17.16 10.62 18 9.33 18 8s-.84-2.62-1.26-3.26C16.31 4.1 15 2 12 2m-1 2.5c.14 0 .25.11.25.25S11.14 5 11 5s-.25-.11-.25-.25S10.86 4.5 11 4.5m-3.25 1.5c0 .41-.34.75-.75.75s-.75-.34-.75-.75s.34-.75.75-.75s.75.34.75.75m9.5 0c0 .41-.34.75-.75.75s-.75-.34-.75-.75s.34-.75.75-.75s.75.34.75.75Z"/></svg>') no-repeat center center;
     background-size: contain;
-    opacity: 0.7;
+    opacity: 0.6; /* Levemente mais sutil */
     animation: float 15s infinite linear;
 }
 
@@ -259,11 +279,22 @@ section {
     padding: 100px 0;
     position: relative;
 }
+/* Fundo alternado para seções para diferenciação visual */
+section:nth-of-type(even) {
+    background-color: var(--muted);
+}
+/* Ajuste para títulos e textos em seções com fundo --muted, se necessário */
+section:nth-of-type(even) h1, section:nth-of-type(even) h2, section:nth-of-type(even) h3 {
+    color: var(--primary); /* Mantém a cor primária para títulos */
+}
+section:nth-of-type(even) p {
+    color: var(--foreground); /* Texto principal ainda legível */
+}
+
 
 .section-title-center {
     text-align: center;
 }
-
 .section-title-center h2::after {
     left: 50%;
     transform: translateX(-50%);
@@ -279,19 +310,24 @@ section {
 .about-text {
     flex: 1;
 }
+.about-text h2 { /* Já herda cor de h2 global */
+}
+.about-text p { /* Já herda cor de p global */
+}
 
 .about-image {
     flex: 1;
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px var(--strong-shadow);
     transform: rotate(-2deg);
     transition: var(--transition);
 }
 
 .about-image:hover {
     transform: rotate(0deg) scale(1.03);
+    box-shadow: 0 25px 50px var(--strong-shadow); /* Sombra mais pronunciada no hover */
 }
 
 .about-image img {
@@ -301,10 +337,6 @@ section {
 }
 
 /* Steps Section */
-.steps-section {
-    background: linear-gradient(to bottom, #e6f4ea, #ffffff);
-}
-
 .steps-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -313,15 +345,23 @@ section {
 }
 
 .step-item {
-    background: var(--card-bg);
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: 20px;
     padding: 40px 30px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px var(--subtle-shadow);
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Changed from visible to hidden for ::before */
     transition: var(--transition);
     z-index: 1;
+}
+.step-item h3 {
+    color: var(--primary); /* Título dentro do step-item */
+    margin-bottom: 1rem;
+}
+.step-item p {
+    color: var(--card-foreground); /* Texto dentro do step-item */
 }
 
 .step-item::before {
@@ -331,16 +371,16 @@ section {
     left: 0;
     width: 100%;
     height: 5px;
-    background: var(--primary);
+    background: var(--accent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.5s ease;
-    z-index: -1;
+    z-index: -1; /* Abaixo do conteúdo */
 }
 
 .step-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px var(--shadow);
 }
 
 .step-item:hover::before {
@@ -350,14 +390,14 @@ section {
 .step-icon {
     width: 80px;
     height: 80px;
-    background: rgba(76, 175, 80, 0.1);
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 2rem;
-    color: var(--primary);
+    color: var(--accent-foreground); /* Ícone em si */
 }
 
 .step-number {
@@ -366,7 +406,8 @@ section {
     right: 20px;
     font-size: 3rem;
     font-weight: 700;
-    color: rgba(46, 125, 50, 0.05);
+    color: color-mix(in srgb, var(--accent) 10%, transparent);
+    z-index: 0; /* Atrás do conteúdo principal do card */
 }
 
 /* Benefits Section */
@@ -378,41 +419,45 @@ section {
 }
 
 .benefit-item {
-    background: var(--card-bg);
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: 20px;
     padding: 40px 30px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px var(--subtle-shadow);
     position: relative;
     overflow: hidden;
     transition: var(--transition);
-    border: 1px solid rgba(46, 125, 50, 0.1);
+    border: 1px solid var(--border);
+}
+.benefit-item h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+.benefit-item p {
+    color: var(--card-foreground);
 }
 
 .benefit-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    border-color: var(--primary-light);
+    box-shadow: 0 15px 40px var(--shadow);
+    border-color: var(--accent);
 }
 
 .benefit-icon {
     width: 70px;
     height: 70px;
-    background: rgba(255, 215, 0, 0.1);
+    background: color-mix(in srgb, var(--primary) 25%, transparent);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 1.8rem;
-    color: var(--secondary);
+    color: var(--primary-foreground);
 }
 
 /* Kits Section */
-.kits-section {
-    background: linear-gradient(to bottom, #f0f8f0, #ffffff);
-}
-
 .kits-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -421,40 +466,53 @@ section {
 }
 
 .kit-card {
-    background: var(--card-bg);
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 40px var(--shadow);
     transition: var(--transition);
     position: relative;
+    display: flex; /* Para que o footer (botão) possa ser alinhado ao final */
+    flex-direction: column; /* Conteúdo empilhado verticalmente */
 }
 
 .kit-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 50px var(--strong-shadow);
 }
 
 .kit-badge {
     position: absolute;
     top: 20px;
-    right: -40px;
+    right: -40px; /* Ajuste conforme necessário para o visual da faixa */
     background: var(--accent);
-    color: white;
+    color: var(--accent-foreground);
     padding: 8px 40px;
     transform: rotate(45deg);
     font-weight: 600;
     font-size: 0.9rem;
+    z-index: 1;
 }
 
 .kit-header {
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-    color: white;
+    background: var(--accent);
+    color: var(--accent-foreground);
     text-align: center;
     padding: 30px 20px;
+}
+.kit-header h3 {
+    color: var(--accent-foreground);
+    margin-bottom: 0.5rem;
 }
 
 .kit-body {
     padding: 30px;
+    flex-grow: 1; /* Faz o corpo ocupar o espaço disponível */
+}
+.kit-body p.muted { /* Para descrição do kit */
+    color: var(--muted-foreground);
+    font-size: 0.9rem;
 }
 
 .kit-price {
@@ -462,11 +520,13 @@ section {
     font-weight: 700;
     color: var(--primary);
     margin: 15px 0;
+    text-align: center;
 }
 
 .kit-features {
     list-style: none;
     margin: 25px 0;
+    padding: 0;
 }
 
 .kit-features li {
@@ -475,6 +535,7 @@ section {
     display: flex;
     align-items: center;
     gap: 10px;
+    color: var(--card-foreground);
 }
 
 .kit-features li:last-child {
@@ -482,22 +543,33 @@ section {
 }
 
 .kit-features li i {
-    color: var(--primary);
+    color: var(--accent);
+    min-width: 20px; /* Para alinhar o texto das features */
 }
+
+.kit-footer { /* Para o botão de call to action do kit */
+    padding: 0 30px 30px;
+    margin-top: auto; /* Empurra o footer para o final do card */
+}
+
 
 /* Impact Section */
 .impact-section {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-    color: white;
+    background: var(--accent);
+    color: var(--accent-foreground);
     text-align: center;
 }
 
 .impact-section h2 {
-    color: white;
+    color: var(--accent-foreground);
 }
-
 .impact-section h2::after {
-    background: var(--secondary);
+    background: var(--accent-foreground);
+}
+.impact-section p { /* Parágrafo introdutório da seção de impacto */
+    color: var(--accent-foreground);
+    max-width: 700px;
+    margin: 0 auto 30px;
 }
 
 .stats-grid {
@@ -508,28 +580,25 @@ section {
 }
 
 .stat-item {
-    background: rgba(255, 255, 255, 0.1);
+    background: color-mix(in srgb, var(--accent-foreground) 10%, transparent);
     border-radius: 15px;
     padding: 30px;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px); /* Pode ser removido se causar problemas de performance */
 }
 
 .stat-number {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    color: var(--secondary);
+    color: var(--accent-foreground);
 }
 
 .stat-text {
     font-size: 1.2rem;
+    color: var(--accent-foreground); /* Texto da estatística já é --accent-foreground pela seção */
 }
 
-/* Testimonials */
-.testimonials-section {
-    background: linear-gradient(to bottom, #ffffff, #f0f8f0);
-}
-
+/* Testimonials Section */
 .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -538,41 +607,46 @@ section {
 }
 
 .testimonial-card {
-    background: var(--card-bg);
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: 20px;
     padding: 40px 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px var(--subtle-shadow);
     position: relative;
     transition: var(--transition);
 }
 
 .testimonial-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px var(--shadow);
 }
 
 .testimonial-card::before {
     content: '"';
     position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 5rem;
+    top: 15px; /* Ajuste para melhor posicionamento */
+    left: 15px; /* Ajuste para melhor posicionamento */
+    font-size: 6rem; /* Aumentado para mais impacto */
     font-family: 'Playfair Display', serif;
-    color: rgba(46, 125, 50, 0.1);
+    color: color-mix(in srgb, var(--primary) 20%, transparent); /* Aspas com cor primária mais sutil */
     line-height: 1;
+    z-index: 0;
 }
 
 .testimonial-text {
     font-style: italic;
     margin-bottom: 25px;
     position: relative;
-    z-index: 1;
+    z-index: 1; /* Para ficar sobre as aspas */
+    color: var(--card-foreground);
 }
 
 .testimonial-author {
     display: flex;
     align-items: center;
     gap: 15px;
+    position: relative;
+    z-index: 1;
 }
 
 .testimonial-avatar {
@@ -583,195 +657,246 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--primary-foreground);
     font-weight: 700;
     font-size: 1.5rem;
+    flex-shrink: 0; /* Para não encolher */
 }
 
 .testimonial-name {
     font-weight: 600;
     font-size: 1.1rem;
+    color: var(--primary); /* Nome do autor destacado */
 }
+.testimonial-title { /* Opcional: título/cargo do autor */
+    font-size: 0.9rem;
+    color: var(--muted-foreground);
+}
+
 
 /* FAQ Section */
-.faq-section {
-    background: linear-gradient(to bottom, #f0f8f0, #ffffff);
-}
-
 .faq-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 50px auto 0; /* Ajustado para margin-top */
 }
 
 .faq-item {
-    background: var(--card-bg);
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: var(--transition);
+    box-shadow: 0 5px 15px var(--subtle-shadow);
+    overflow: hidden; /* Mantém para o efeito de acordeão */
 }
 
 .faq-question {
-    padding: 25px;
+    padding: 20px 25px; /* Ajustado padding */
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Ajustado tamanho da fonte */
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(46, 125, 50, 0.05);
-    transition: var(--transition);
+    background: color-mix(in srgb, var(--card) 90%, var(--accent) 10%);
+    transition: background-color 0.3s ease; /* Transição apenas no background */
+    color: var(--primary);
+    border: none; /* Removendo qualquer borda padrão de button/summary */
+    width: 100%; /* Para garantir que ocupe todo o espaço se for button */
 }
 
 .faq-question:hover {
-    background: rgba(46, 125, 50, 0.1);
+    background: color-mix(in srgb, var(--card) 80%, var(--accent) 20%);
 }
 
 .faq-question i {
-    transition: var(--transition);
+    transition: transform 0.3s ease; /* Apenas transição no transform */
+    color: var(--primary);
+    margin-left: 10px; /* Espaçamento para o ícone */
 }
 
 .faq-answer {
     padding: 0 25px;
     max-height: 0;
     overflow: hidden;
-    transition: var(--transition);
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+.faq-item.active .faq-answer {
+    /* Estilos da resposta quando o item de FAQ está ativo (expandido). */
+    /* padding: 0 25px 25px;  A lógica de padding foi movida para .faq-answer p */
+    max-height: 500px; /* Altura máxima para mostrar o conteúdo */
+}
+.faq-answer p { /* Certificando que este estilo da sugestão anterior seja incluído */
+    padding: 20px 0;
+    margin-bottom: 0;
+    color: var(--card-foreground);
+    font-size: 1rem;
 }
 
-.faq-item.active .faq-answer {
-    padding: 0 25px 25px;
-    max-height: 500px;
-}
 
 .faq-item.active .faq-question i {
-    transform: rotate(180deg);
+    /* Rotaciona o ícone de seta quando o item de FAQ está ativo. */
+    transform: rotate(180deg); /* Gira 180 graus */
 }
 
 /* Guarantee Section */
 .guarantee-section {
-    background: linear-gradient(135deg, var(--secondary), #ffc400);
-    color: var(--text-dark);
-    text-align: center;
-    padding: 80px 0;
+    /* Estilos para a seção de garantia. */
+    background: linear-gradient(135deg, var(--secondary), var(--muted)); /* Gradiente com cores da paleta */
+    color: var(--foreground); /* Texto claro sobre fundo escuro/médio */
+    text-align: center; /* Texto centralizado */
+    padding: 80px 0; /* Preenchimento vertical */
 }
 
 .guarantee-section h2 {
-    color: var(--text-dark);
-    margin-bottom: 20px;
+    /* Título da seção de garantia. */
+    color: var(--primary); /* Cor primária para destaque no título */
+    margin-bottom: 20px; /* Espaçamento inferior */
 }
 
 .guarantee-section h2::after {
-    background: var(--primary);
+    /* Linha decorativa abaixo do título da seção de garantia. */
+    background: var(--primary); /* Cor primária para a linha */
 }
 
 .guarantee-section p {
-    font-size: 1.3rem;
-    max-width: 700px;
-    margin: 0 auto 30px;
+    /* Parágrafo da seção de garantia. */
+    font-size: 1.3rem; /* Tamanho da fonte */
+    max-width: 700px; /* Largura máxima do parágrafo */
+    margin: 0 auto 30px; /* Centraliza e adiciona margem inferior */
+    color: var(--secondary-foreground); /* Texto um pouco mais suave que o principal */
 }
 
 /* Mission Section */
 .mission-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+    /* Estilos para a seção de missão. */
+    background: linear-gradient(rgba(var(--shadow-color-rgb), 0.75), rgba(var(--shadow-color-rgb), 0.85)), /* Sobreposição escura com base no --background */
                 url('https://images.unsplash.com/photo-1491147334573-44cbb4602074?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
-    color: white;
-    text-align: center;
-    padding: 150px 0;
+    background-attachment: fixed; /* Efeito Parallax */
+    color: var(--accent-foreground); /* Texto branco brilhante para alto contraste */
+    text-align: center; /* Texto centralizado */
+    padding: 150px 0; /* Preenchimento vertical generoso */
 }
 
 .mission-section h2 {
-    color: white;
+    /* Título da seção de missão. */
+    color: var(--accent-foreground); /* Cor do texto do título */
 }
 
 .mission-section h2::after {
-    background: var(--secondary);
+    /* Linha decorativa abaixo do título da seção de missão. */
+    background: var(--accent-foreground); /* Cor da linha igual ao texto do título */
 }
+.mission-section p { /* Adicionado para consistência com sugestão anterior */
+    color: var(--foreground); /* Texto de parágrafo um pouco menos brilhante que o título */
+    max-width: 800px;
+    margin: 20px auto 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+}
+
 
 /* Footer */
 .footer {
-    background: var(--dark-bg);
-    color: var(--text-light);
-    padding: 80px 0 40px;
+    /* Estilos para o rodapé. */
+    background: var(--card); /* Fundo do rodapé um pouco diferente do background principal */
+    color: var(--card-foreground); /* Texto principal do rodapé */
+    padding: 80px 0 40px; /* Preenchimento vertical */
 }
 
 .footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 50px;
+    /* Contêiner para o conteúdo do rodapé (dividido em colunas). */
+    display: grid; /* Layout de grid */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colunas responsivas */
+    gap: 40px; /* Espaçamento entre as colunas */
+    margin-bottom: 50px; /* Espaçamento inferior */
 }
 
 .footer-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-light);
+    /* Logo ou título no rodapé. */
+    font-family: 'Playfair Display', serif; /* Fonte diferenciada */
+    font-size: 2rem; /* Tamanho da fonte */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    color: var(--primary); /* Cor primária para a marca no rodapé */
 }
 
 .footer-about p {
-    color: var(--text-muted);
+    /* Texto "Sobre" no rodapé. */
+    color: var(--muted-foreground); /* Texto suave/neutro */
+    font-size: 0.95rem; /* Ajuste de tamanho */
+    line-height: 1.6;
 }
 
 .footer-links h3 {
-    color: var(--text-light);
-    margin-bottom: 25px;
-    font-size: 1.3rem;
+    /* Títulos das seções de links no rodapé. */
+    color: var(--primary); /* Títulos dos links com cor primária */
+    margin-bottom: 25px; /* Espaçamento inferior */
+    font-size: 1.3rem; /* Tamanho da fonte */
 }
 
 .footer-links ul {
-    list-style: none;
+    /* Lista de links no rodapé. */
+    list-style: none; /* Remove marcadores de lista */
+    padding: 0; /* Remove padding padrão da lista */
 }
 
 .footer-links li {
-    margin-bottom: 15px;
+    /* Cada item da lista de links. */
+    margin-bottom: 15px; /* Espaçamento inferior */
 }
 
 .footer-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    /* Links individuais no rodapé. */
+    color: var(--muted-foreground); /* Cor de texto suave/neutro para links */
+    text-decoration: none; /* Sem sublinhado */
+    transition: var(--transition); /* Transição suave no hover */
+    display: flex; /* Layout flexbox para ícone e texto */
+    align-items: center; /* Alinha verticalmente */
+    gap: 10px; /* Espaçamento entre ícone e texto */
 }
 
 .footer-links a:hover {
-    color: var(--primary-light);
+    /* Efeito ao passar o mouse nos links do rodapé. */
+    color: var(--primary); /* Muda a cor para primária no hover */
 }
 
 .footer-social {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
+    /* Links de redes sociais no rodapé. */
+    display: flex; /* Layout flexbox */
+    gap: 15px; /* Espaçamento entre os ícones */
+    margin-top: 20px; /* Espaçamento superior */
 }
 
 .social-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-    transition: var(--transition);
+    /* Estilos para cada ícone de rede social. */
+    width: 40px; /* Largura */
+    height: 40px; /* Altura */
+    border-radius: 50%; /* Formato circular */
+    background: color-mix(in srgb, var(--foreground) 10%, transparent); /* Fundo claro semitransparente */
+    display: flex; /* Layout flexbox para centralizar o ícone */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    color: var(--card); /* Cor do ícone (escura para contrastar com fundo claro do ícone) */
+    font-size: 1.2rem; /* Tamanho do ícone */
+    transition: var(--transition); /* Transição suave no hover */
 }
 
 .social-icon:hover {
-    background: var(--primary);
-    transform: translateY(-5px);
+    /* Efeito ao passar o mouse nos ícones sociais. */
+    background: var(--primary); /* Fundo na cor primária */
+    color: var(--primary-foreground); /* Cor do ícone para contrastar com fundo primário */
+    transform: translateY(-5px); /* Move o ícone ligeiramente para cima */
 }
 
 .footer-bottom {
-    text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
+    /* Área de copyright no rodapé. */
+    text-align: center; /* Texto centralizado */
+    padding-top: 30px; /* Preenchimento superior */
+    border-top: 1px solid var(--border); /* Borda sutil com cor da paleta */
+    color: var(--muted-foreground); /* Texto suave/neutro */
+    font-size: 0.9rem;
 }
 
-/* Animations */
+/* Animations (Mantidas como no original, pois não envolvem cores diretamente) */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -808,70 +933,95 @@ section {
 
 /* Responsive */
 @media (max-width: 992px) {
+    /* Estilos aplicados quando a largura da tela é no máximo 992px. */
     .about-content {
         flex-direction: column;
+        text-align: center; /* Alinhar texto ao centro */
     }
-    
     .about-image {
         margin-top: 40px;
+        max-width: 70%; /* Reduzir um pouco a imagem */
+        margin-left: auto;
+        margin-right: auto;
     }
-    
     h1 {
         font-size: 2.8rem;
     }
-    
     h2 {
         font-size: 2.2rem;
     }
 }
 
 @media (max-width: 768px) {
+    /* Estilos aplicados quando a largura da tela é no máximo 768px. */
     .navbar-links {
         position: fixed;
-        top: 80px;
+        top: 0; /* Começa do topo */
         left: -100%;
         width: 100%;
-        height: calc(100vh - 80px);
-        background: rgba(255, 255, 255, 0.95);
+        height: 100vh; /* Altura total da viewport */
+        background: var(--card); /* Fundo escuro para o menu mobile */
         flex-direction: column;
-        padding: 40px 20px;
+        padding: 80px 20px 40px; /* Aumentar padding superior para afastar do topo da tela */
         gap: 25px;
         transition: var(--transition);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(5px); /* Efeito de blur, se desejado sobre o conteúdo da página */
+        z-index: 999; /* Abaixo do botão de toggle, mas acima do conteúdo da página */
+        align-items: center; /* Centralizar links */
+        justify-content: center; /* Centralizar links */
     }
-    
+    .navbar-links .nav-link { /* Garantir que os links no menu mobile sejam visíveis */
+        color: var(--foreground);
+        font-size: 1.2rem; /* Aumentar um pouco para facilitar o toque */
+    }
+    .navbar-links .nav-link:hover {
+        color: var(--accent);
+    }
     .navbar-links.active {
         left: 0;
     }
-    
-    .menu-toggle {
+    .menu-toggle { /* Botão de menu hamburger */
         display: block;
+        z-index: 1001; /* Acima do menu mobile e da navbar.scrolled */
+        position: relative; /* Para garantir que o z-index funcione corretamente */
     }
-    
     h1 {
         font-size: 2.5rem;
     }
-    
     h2 {
         font-size: 2rem;
     }
-    
     section {
         padding: 70px 0;
+    }
+    .mission-section {
+        background-attachment: scroll; /* Remover parallax em mobile para performance */
+    }
+    .footer-container {
+        grid-template-columns: 1fr; /* Empilhar colunas do rodapé */
+        text-align: center; /* Centralizar conteúdo das colunas */
+    }
+    .footer-social {
+        justify-content: center; /* Centralizar ícones sociais */
     }
 }
 
 @media (max-width: 576px) {
+    /* Estilos aplicados quando a largura da tela é no máximo 576px (telas muito pequenas). */
     h1 {
         font-size: 2.2rem;
     }
-    
     h2 {
         font-size: 1.8rem;
     }
-    
     .btn {
         padding: 12px 25px;
         font-size: 1rem;
+    }
+    .hero-section {
+        padding: 100px 0 60px;
+    }
+    .navbar-links {
+        padding-top: 100px; /* Mais espaço no topo para o menu mobile */
     }
 }
