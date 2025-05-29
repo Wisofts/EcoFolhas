@@ -224,7 +224,7 @@ p.muted, .muted-text { /* Para textos com menor ênfase */
     display: flex;
     align-items: center;
     background: linear-gradient(rgba(var(--shadow-color-rgb), 0.65), rgba(var(--shadow-color-rgb), 0.5)),
-                url('/fundo-de-folhas-verdes-tropicais_53876-90796.avif') no-repeat center center/cover;
+                url('/img/background.avif') no-repeat center center/cover;
     overflow: hidden;
     color: var(--foreground); /* Texto principal da hero */
 }
