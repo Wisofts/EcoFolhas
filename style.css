@@ -28,7 +28,6 @@
   --transition: all 0.3s ease; /* Definição consolidada */
 }
 
-
 /* Reset e base */
 * {
   margin: 0;
@@ -260,7 +259,6 @@ button:focus-visible,
 .hero-content {
   z-index: 2;
   max-width: 650px;
-  /* animation: fadeInUp 1s ease-out;  Removido para evitar dupla animação */
 }
 
 .hero-content h1,
@@ -307,11 +305,16 @@ section:nth-of-type(even) {
   flex-wrap: wrap;
 }
 
-.about-text, .about-image {
+.about-text {
   flex: 1;
 }
 
-.about-image {
+/* CARROSSEL (Substitui a imagem estática) */
+.carousel-wrapper {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  max-width: 480px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 40px var(--strong-shadow);
@@ -319,23 +322,51 @@ section:nth-of-type(even) {
   transition: var(--transition);
 }
 
-.about-image:hover {
+.carousel-wrapper:hover {
   transform: rotate(0deg) scale(1.03);
   box-shadow: 0 25px 50px var(--strong-shadow);
 }
 
-.about-image img {
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
   width: 100%;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  object-fit: cover;
   display: block;
 }
 
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 8px;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
+
 /* Cards (Steps e Benefits) */
 .step-item, .benefit-item {
-  text-align: center; /* Mantido da primeira declaração original */
-  box-shadow: 0 10px 30px var(--subtle-shadow); /* Mantido da primeira declaração original */
-  position: relative; /* Mantido da primeira declaração original */
-  overflow: hidden; /* Mantido da primeira declaração original */
-  /* Propriedades dominantes da segunda declaração original, limpas de redundâncias */
+  text-align: center;
+  box-shadow: 0 10px 30px var(--subtle-shadow);
+  position: relative;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.15);
   color: var(--accent-foreground);
   border-radius: 15px;
@@ -393,20 +424,13 @@ section:nth-of-type(even) {
 
 .step-item:hover .step-icon,
 .benefit-item:hover .benefit-icon,
-.stat-item:hover .stat-icon { /* .stat-item:hover .stat-icon já estava aqui, mantido */
+.stat-item:hover .stat-icon {
   transform: scale(1.15) rotate(10deg);
 }
 
-/* .stat-item:hover .stat-icon tinha uma regra separada, mas a de cima já o cobre.
-   Se o transform for diferente, precisaria ser separado.
-   A regra original era:
-   .stat-item:hover .stat-icon { transform: scale(1.2) rotate(20deg); }
-   Vou manter a especificidade se a intenção era diferente.
-*/
-.stat-item:hover .stat-icon { /* Mantendo a regra específica para stat-icon se o efeito é diferente */
+.stat-item:hover .stat-icon {
   transform: scale(1.2) rotate(20deg);
 }
-
 
 .step-number {
   position: absolute;
@@ -414,7 +438,7 @@ section:nth-of-type(even) {
   right: 20px;
   font-size: 3rem;
   font-weight: bold;
-  color: #d2c7a7; /* Mantido, poderia ser var(--primary-lighter) mas respeitando o original */
+  color: #d2c7a7;
   z-index: 0;
 }
 
@@ -540,14 +564,13 @@ section:nth-of-type(even) {
   min-width: 25px;
   text-align: center;
   transition: transform 0.3s ease, color 0.3s ease;
-  transform: scale(1) rotate(0deg); /* Estado inicial */
+  transform: scale(1) rotate(0deg);
 }
 
 .kit-features li .icon-feature:hover {
-  transform: scale(1.2) rotate(5deg); /* Animação ao passar o mouse */
-  color: var(--accent-hover); /* Opcional: cor diferente no hover */
+  transform: scale(1.2) rotate(5deg);
+  color: var(--accent-hover);
 }
-
 
 .kit-footer {
   padding: 0 25px 30px;
@@ -592,7 +615,6 @@ section:nth-of-type(even) {
   text-decoration: none;
 }
 
-/* Elementos filhos, sem !important */
 .btn-quero * {
   text-decoration: none;
 }
@@ -637,7 +659,6 @@ section:nth-of-type(even) {
     0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* Estado de carregamento */
 .btn-quero.loading {
   color: transparent;
   pointer-events: none;
@@ -828,7 +849,6 @@ section:nth-of-type(even) {
   transform: translateY(0);
 }
 
-
 /* SESSÃO TESTEMUNHAS */
 .testimonials-grid {
   display: grid;
@@ -838,11 +858,10 @@ section:nth-of-type(even) {
 }
 
 .testimonial-card {
-  box-shadow: 0 10px 30px var(--subtle-shadow); /* Mantido da primeira declaração original */
-  position: relative; /* Mantido da primeira declaração original */
-  /* Propriedades dominantes da segunda declaração original, limpas de redundâncias */
+  box-shadow: 0 10px 30px var(--subtle-shadow);
+  position: relative;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--accent-foreground); /* Cor base do card, texto específico sobrescreve abaixo */
+  color: var(--accent-foreground);
   border-radius: 15px;
   padding: 30px 20px;
   backdrop-filter: blur(5px);
@@ -873,7 +892,7 @@ section:nth-of-type(even) {
   margin-bottom: 25px;
   position: relative;
   z-index: 1;
-  color: var(--card-foreground); /* Cor específica para o texto do testemunho */
+  color: var(--card-foreground);
 }
 
 .testimonial-author {
@@ -984,15 +1003,14 @@ section:nth-of-type(even) {
   padding-left: 50px; /* Espaço para ícone à esquerda */
 }
 
-/* Ícone decorativo à esquerda */
-  .faq-question::before {
-    content: "\f059"; /* Código Unicode do ícone (verifique o site do FA para o correto) */
-    font-family: "Font Awesome 6 Free"; /* IMPORTANTE: Nome da fonte do Font Awesome */
-    font-weight: 900; /* IMPORTANTE: Para ícones sólidos (fa-solid). Use 400 para fa-regular. */
+.faq-question::before {
+    content: "\f059";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     position: absolute;
-    left: 20px; /* Distância da borda esquerda do .faq-question */
-    top: 50%; /* Posiciona o topo do ícone no meio da altura do .faq-question */
-    transform: translateY(-50%); /* Ajusta o ícone verticalmente para ficar centralizado */
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 1.2rem;
     color: var(--primary);
     transition: transform 0.4s ease;
@@ -1013,7 +1031,6 @@ section:nth-of-type(even) {
   outline-offset: -3px;
 }
 
-/* Resposta - Estado Inicial */
 .faq-answer {
   padding: 0 25px;
   max-height: 0;
@@ -1028,7 +1045,6 @@ section:nth-of-type(even) {
   opacity: 0;
 }
 
-/* Resposta - Estado Expandido */
 .faq-item.active .faq-answer {
   max-height: 100vh;
   padding: 20px 25px;
@@ -1036,191 +1052,164 @@ section:nth-of-type(even) {
   opacity: 1;
 }
 
-/* Rotação do ícone ao expandir */
 .faq-item.active .faq-question i {
   transform: rotate(180deg);
 }
 
-
-/* Animações reduzidas (acessibilidade) */
-@media (prefers-reduced-motion: reduce) {
-  .faq-question,
-  .faq-question i,
-  .faq-answer {
-    transition: none !important;
-  }
+/* ===== SEÇÃO ANTES E DEPOIS (VÍDEO) ===== */
+.before-after-section {
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(170deg, var(--muted), #111f18);
+  color: #fff;
 }
 
-/* ===== RESPONSIVIDADE UNIFICADA ===== */
-@media (max-width: 1100px) {
-  .btn-quero {
-    padding: 14px 24px;
-    font-size: 0.95rem;
-    min-width: 130px;
-  }
+.before-after-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiGAAABgVBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AzO6RAAAAh3RSTlMAAQIDBAUGCAoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcH+Ag4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2+wN4AAGAAAABJRU5ErkJggg==');
 }
 
-@media (max-width: 992px) {
-  .about-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .about-image {
-    margin: 40px auto 0;
-    max-width: 70%;
-  }
-
-  h1 { font-size: 2.8rem; }
-  h2 { font-size: 2.2rem; } /* H2 já é 2.2rem, mas mantendo para clareza da responsividade */
+.before-after-section .section-title-center {
+  margin-bottom: 50px;
 }
 
-@media (max-width: 768px) {
-  .btn-quero {
-    padding: 12px 20px;
-    font-size: 0.9rem;
-    min-width: 120px;
-  }
-
-  .stat-item,
-  .testimonial-card {
-    padding: 25px 20px;
-  }
-
-  .navbar-links {
-    position: fixed;
-    top: 0;
-    left: -100%; /* Começa fora da tela */
-    width: 100%;
-    height: 100vh;
-    background: var(--card);
-    flex-direction: column;
-    padding: 80px 20px 40px;
-    gap: 25px;
-    transition: transform 0.35s ease; /* Transição no transform */
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto;
-    transform: translateX(0); /* Estado inicial do transform */
-  }
-
-  .navbar-links .nav-link {
-    color: var(--foreground);
-    font-size: 1.2rem;
-  }
-
-  .navbar-links.active {
-    transform: translateX(100%); /* Move para a tela (de left: -100% para left: 0) */
-  }
-
-  .menu-toggle {
-    display: block;
-    z-index: 1001; /* Acima do menu para ser clicável */
-  }
-
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-
-  section {
-    padding: 70px 0;
-  }
-
-  .mission-section { /* Presumindo que .mission-section existe e pode precisar disto */
-    background-attachment: scroll;
-  }
-
-  .footer-container { /* Presumindo que .footer-container existe */
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .footer-links ul { /* Presumindo que .footer-links ul existe */
-    display: inline-block;
-    text-align: left;
-  }
-
-  .footer-social { /* Presumindo que .footer-social existe */
-    justify-content: center;
-  }
-
-  .kits-container {
-    gap: 20px;
-  }
-
-  .kit-card {
-    width: calc(100% - 20px); /* Garante padding lateral */
-    max-width: 380px;
-    margin: 0 auto; /* Centraliza se houver espaço */
-  }
+.before-after-section .section-title-center h2 {
+  color: #fff;
+  font-size: 2.5rem;
 }
 
-@media (prefers-reduced-motion: reduce) { /* Movido para o escopo global */
-  .btn-quero,
-  .btn-quero .btn-icon,
-  .btn-quero:hover,
-  .kit-card:hover {
-    transition: none !important;
-    animation: none !important;
-  }
+.before-after-section .section-title-center p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 10px auto 0 auto;
 }
 
-@media (max-width: 576px) {
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.8rem; }
-
-  .btn { /* Estilo para .btn genérico, .btn-quero tem seus próprios ajustes */
-    padding: 12px 25px;
-    font-size: 1rem;
-  }
-
-  .hero-section {
-    padding: 100px 0 60px; /* Ajuste para telas menores */
-    min-height: auto; /* Remove min-height para conteúdo caber */
-  }
-
-  .hero-content {
-    text-align: center;
-    max-width: 90%; /* Garante que não toque as bordas */
-  }
-
-  .navbar-links { /* Ajuste para menu mobile em telas muito pequenas */
-    padding-top: 100px;
-  }
-
-  .testimonial-card {
-    padding: 30px 20px; /* Já definido, mas pode ser ajustado mais se necessário */
-  }
-
-  .testimonial-card::before {
-    font-size: 4rem;
-    top: 10px;
-    left: 10px;
-  }
+.video-container {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  border-radius: 30px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background-color: #000;
 }
 
-@media (max-width: 480px) {
-  .btn-quero {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    min-width: 110px;
-    letter-spacing: 0.4px;
-  }
+.main-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
-  /* Melhoria: Substituir hover por active em mobile para alguns efeitos */
-  .btn-quero:active { /* :active é mais apropriado para feedback em touch */
-    transform: translateY(-3px) scale(1.02); /* Efeito sutil no toque */
-  }
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
 
-  .faq-question {
-    padding: 15px 20px;
-    font-size: 1rem;
-  }
+.play-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  .notification {
-    width: 95%; /* Para não ocupar toda a largura em telas pequenas */
-    padding: 12px 20px;
-  }
+.play-button {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.8);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 15px rgba(255, 0, 0, 0.2);
+}
+
+.play-button:hover {
+  background: rgba(255, 0, 0, 1);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.play-button::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-left: 30px solid white;
+  border-bottom: 20px solid transparent;
+  margin-left: 8px;
+}
+
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.video-container:hover .video-controls {
+  transform: translateY(0);
+}
+
+.control-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.control-btn:hover {
+  opacity: 1;
+}
+
+.progress-container {
+  flex-grow: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0; /* Controlado via JS */
+  background: #ff0000;
+  transition: width 0.1s linear;
 }
 
 /* ===== SEÇÃO GARANTIA ===== */
@@ -1264,7 +1253,7 @@ section:nth-of-type(even) {
 }
 
 .mission-section h2 {
-  color: var(--accent-foreground); /* Sobrescreve h2 padrão */
+  color: var(--accent-foreground);
 }
 
 .mission-section h2::after {
@@ -1273,11 +1262,11 @@ section:nth-of-type(even) {
   height: 3px;
   width: 80px;
   margin: 15px auto 0;
-  background: var(--accent-foreground); /* Cor do after para esta seção */
+  background: var(--accent-foreground);
 }
 
 .mission-section p {
-  color: var(--foreground); /* Cor do parágrafo para esta seção */
+  color: var(--foreground);
   max-width: 800px;
   margin: 20px auto 0;
   font-size: 1.2rem;
@@ -1349,7 +1338,7 @@ section:nth-of-type(even) {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(229, 222, 204, 0.1); /* Usando rgba para consistência com outros bg semi-transparentes */
+  background: rgba(229, 222, 204, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1373,7 +1362,7 @@ section:nth-of-type(even) {
 }
 
 /* ===== ANIMAÇÕES ===== */
-@keyframes fadeInUp { /* Definição consolidada */
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -1384,10 +1373,10 @@ section:nth-of-type(even) {
   }
 }
 
-.animate-on-scroll { /* Definição consolidada */
+.animate-on-scroll {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease; /* Ajustado para consistência com outros, se necessário */
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .animate-on-scroll.visible {
@@ -1404,25 +1393,196 @@ section:nth-of-type(even) {
   height: 50px;
   border-radius: 50%;
   background: var(--accent);
-  color: white; /* Mantido 'white', poderia ser var(--accent-foreground) */
+  color: white;
   border: none;
   cursor: pointer;
-  display: none; /* Começa escondido */
+  display: none;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   z-index: 100;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: var(--transition), opacity 0.3s; /* Adicionado opacity na transição */
-  opacity: 0; /* Começa invisível para transição suave */
+  transition: var(--transition), opacity 0.3s;
+  opacity: 0;
 }
 
 .back-to-top.visible {
-  display: flex; /* Torna visível com JS */
+  display: flex;
   opacity: 1;
 }
 
 .back-to-top:hover {
   background: var(--accent-darker);
   transform: translateY(-5px);
+}
+
+/* ===== RESPONSIVIDADE UNIFICADA ===== */
+@media (max-width: 1100px) {
+  .btn-quero {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    min-width: 130px;
+  }
+}
+
+@media (max-width: 992px) {
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carousel-wrapper {
+    margin: 40px auto 0;
+    max-width: 70%;
+  }
+
+  h1 { font-size: 2.8rem; }
+  h2 { font-size: 2.2rem; }
+}
+
+@media (max-width: 768px) {
+  .btn-quero {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    min-width: 120px;
+  }
+
+  .stat-item,
+  .testimonial-card {
+    padding: 25px 20px;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: var(--card);
+    flex-direction: column;
+    padding: 80px 20px 40px;
+    gap: 25px;
+    transition: transform 0.35s ease;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    transform: translateX(0);
+  }
+
+  .navbar-links .nav-link {
+    color: var(--foreground);
+    font-size: 1.2rem;
+  }
+
+  .navbar-links.active {
+    transform: translateX(100%);
+  }
+
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+
+  section {
+    padding: 70px 0;
+  }
+
+  .mission-section {
+    background-attachment: scroll;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-links ul {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .kits-container {
+    gap: 20px;
+  }
+
+  .kit-card {
+    width: calc(100% - 20px);
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-quero,
+  .btn-quero .btn-icon,
+  .btn-quero:hover,
+  .kit-card:hover {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 576px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+
+  .btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  .hero-section {
+    padding: 100px 0 60px;
+    min-height: auto;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 90%;
+  }
+
+  .navbar-links {
+    padding-top: 100px;
+  }
+
+  .testimonial-card {
+    padding: 30px 20px;
+  }
+
+  .testimonial-card::before {
+    font-size: 4rem;
+    top: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-quero {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    min-width: 110px;
+    letter-spacing: 0.4px;
+  }
+
+  .btn-quero:active {
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .faq-question {
+    padding: 15px 20px;
+    font-size: 1rem;
+  }
+
+  .notification {
+    width: 95%;
+    padding: 12px 20px;
+  }
 }
