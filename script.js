@@ -374,3 +374,124 @@ document.addEventListener('DOMContentLoaded', () => {
     // Recriar folhas ao redimensionar
     window.addEventListener('resize', createScrollManager(createLeaves));
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('.main-video');
+    const playOverlay = document.querySelector('.play-overlay');
+    const playButton = document.querySelector('.play-button');
+    const playPauseBtn = document.querySelector('.play-pause-btn');
+    const progressBar = document.querySelector('.progress-bar');
+    const progressContainer = document.querySelector('.progress-container');
+    const timeDisplay = document.querySelector('.time-display');
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+    const videoContainer = document.querySelector('.video-container');
+  
+    // Controles de reprodução
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        playOverlay.style.display = 'none';
+      } else {
+        video.pause();
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    }
+  
+    playButton.addEventListener('click', function(e) {
+        e.stopPropagation(); // Impede que o evento chegue ao overlay
+        togglePlay();
+    });
+// Função para reiniciar o vídeo
+function restartVideo() {
+    video.currentTime = 0;
+    if (video.paused) {
+        video.play();
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        playOverlay.classList.add('hidden');
+    }
+    
+    // Animação visual
+    restartBtn.classList.add('restart-animation');
+    setTimeout(() => {
+        restartBtn.classList.remove('restart-animation');
+    }, 300);
+}
+    
+    // Event listener para o botão de play/pause na barra
+    playPauseBtn.addEventListener('click', togglePlay);
+    
+    // Event listener para o overlay (clique em qualquer lugar)
+    playOverlay.addEventListener('click', function() {
+        // Somente se o clique não foi no botão
+        togglePlay();
+    });
+    
+    // Atualizar barra de progresso
+    video.addEventListener('timeupdate', function() {
+        const progress = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+        
+        // Atualizar exibição de tempo
+        const currentMins = Math.floor(video.currentTime / 60);
+        const currentSecs = Math.floor(video.currentTime % 60);
+        const durationMins = Math.floor(video.duration / 60);
+        const durationSecs = Math.floor(video.duration % 60);
+        
+        timeDisplay.textContent = 
+            `${currentMins}:${currentSecs < 10 ? '0' : ''}${currentSecs} / ${durationMins}:${durationSecs < 10 ? '0' : ''}${durationSecs}`;
+    });
+    
+    // Clique na barra de progresso para buscar
+    progressContainer.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const pos = (e.pageX - rect.left) / this.offsetWidth;
+        video.currentTime = pos * video.duration;
+    });
+    
+    // Tela cheia
+    fullscreenBtn.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+            videoContainer.requestFullscreen().catch(err => {
+                console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+    
+    // Reiniciar overlay ao finalizar
+    video.addEventListener('ended', function() {
+        playOverlay.classList.remove('hidden');
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+    });
+    
+    // Animação de scroll
+    function handleScrollAnimation() {
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        elements.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 50) {
+                el.classList.add('visible');
+            }
+        });
+    }
+    
+    // Rolagem suave para links
+    document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Event listeners para scroll
+    window.addEventListener('scroll', handleScrollAnimation);
+    window.addEventListener('load', handleScrollAnimation);
+});
